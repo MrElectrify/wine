@@ -3535,6 +3535,13 @@ enum caret_state
     obj_handle_t  chandle;        /* port handle */
 @END
 
+/* associate object with completion port */
+@REQ(replace_completion_info)
+    obj_handle_t  handle;         /* object handle */
+    apc_param_t   ckey;           /* completion key */
+    obj_handle_t  chandle;        /* port handle */
+@END
+
 
 /* check for associated completion and push msg */
 @REQ(add_fd_completion)

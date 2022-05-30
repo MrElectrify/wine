@@ -5076,6 +5076,20 @@ struct set_completion_info_reply
 };
 
 
+struct replace_completion_info_request
+{
+    struct request_header __header;
+    obj_handle_t  handle;
+    apc_param_t   ckey;
+    obj_handle_t  chandle;
+    char __pad_28[4];
+};
+struct replace_completion_info_reply
+{
+    struct reply_header __header;
+};
+
+
 
 struct add_fd_completion_request
 {
@@ -5879,6 +5893,7 @@ enum request
     REQ_remove_completion,
     REQ_query_completion,
     REQ_set_completion_info,
+    REQ_replace_completion_info,
     REQ_add_fd_completion,
     REQ_set_fd_completion_mode,
     REQ_set_fd_disp_info,
@@ -6172,6 +6187,7 @@ union generic_request
     struct remove_completion_request remove_completion_request;
     struct query_completion_request query_completion_request;
     struct set_completion_info_request set_completion_info_request;
+    struct replace_completion_info_request replace_completion_info_request;
     struct add_fd_completion_request add_fd_completion_request;
     struct set_fd_completion_mode_request set_fd_completion_mode_request;
     struct set_fd_disp_info_request set_fd_disp_info_request;
@@ -6463,6 +6479,7 @@ union generic_reply
     struct remove_completion_reply remove_completion_reply;
     struct query_completion_reply query_completion_reply;
     struct set_completion_info_reply set_completion_info_reply;
+    struct replace_completion_info_reply replace_completion_info_reply;
     struct add_fd_completion_reply add_fd_completion_reply;
     struct set_fd_completion_mode_reply set_fd_completion_mode_reply;
     struct set_fd_disp_info_reply set_fd_disp_info_reply;
@@ -6502,7 +6519,7 @@ union generic_reply
 
 /* ### protocol_version begin ### */
 
-#define SERVER_PROTOCOL_VERSION 748
+#define SERVER_PROTOCOL_VERSION 749
 
 /* ### protocol_version end ### */
 

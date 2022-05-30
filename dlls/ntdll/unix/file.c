@@ -4701,6 +4701,21 @@ NTSTATUS WINAPI NtSetInformationFile( HANDLE handle, IO_STATUS_BLOCK *io,
             SERVER_END_REQ;
         }
         break;
+    case FileReplaceCompletionInformation:
+        if (len >= sizeof(FILE_COMPLETION_INFORMATION))
+        {
+            FILE_COMPLETION_INFORMATION *info = ptr;
+            SERVER_START_REQ( replace_completion_info )
+            {
+                req->handle   = wine_server_obj_handle( handle );
+                req->chandle = 0;
+                req->ckey = 0;
+                status = wine_server_call( req );
+            }
+            SERVER_END_REQ;
+        }
+        else status = STATUS_INVALID_PARAMETER_3;
+        break;
 
     case FileCompletionInformation:
         if (len >= sizeof(FILE_COMPLETION_INFORMATION))

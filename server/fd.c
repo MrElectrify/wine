@@ -3192,6 +3192,28 @@ DECL_HANDLER(set_completion_info)
     }
 }
 
+/* replace completion object for a fd */
+DECL_HANDLER(replace_completion_info)
+{
+    struct fd *fd = get_handle_fd_obj( current->process, req->handle, 0 );
+    struct completion *old_completion;
+
+    if (fd)
+    {
+        if (is_fd_overlapped( fd ) && fd->completion)
+        {
+            old_completion = fd->completion;
+            if (req->chandle)
+                fd->completion = get_completion_obj( current->process, req->chandle, IO_COMPLETION_MODIFY_STATE );
+            else
+                fd->completion = 0;
+            fd->comp_key = req->ckey;
+            release_object(old_completion);
+        }
+        release_object( fd );
+    }
+}
+
 /* push new completion msg into a completion queue attached to the fd */
 DECL_HANDLER(add_fd_completion)
 {
