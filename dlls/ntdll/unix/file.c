@@ -4708,8 +4708,8 @@ NTSTATUS WINAPI NtSetInformationFile( HANDLE handle, IO_STATUS_BLOCK *io,
             SERVER_START_REQ( replace_completion_info )
             {
                 req->handle   = wine_server_obj_handle( handle );
-                req->chandle = 0;
-                req->ckey = 0;
+                req->chandle = wine_server_obj_handle( info->CompletionPort );
+                req->ckey = info->CompletionKey;
                 status = wine_server_call( req );
             }
             SERVER_END_REQ;
